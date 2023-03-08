@@ -1,0 +1,43 @@
+ public:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+    struct node *reverse (struct node *head, int k)
+    { 
+        if(head==NULL) return NULL; // For empty list
+        if(k==1) return head; // For single element list
+
+        int num = k; // num to store value of k
+        node *prev = NULL, // prev to store previous node's link
+             *new_head = head, // new head to store new head of the new list
+             *Next = head->next, // for keeping track of element next to head so we do not loose the remaining list
+             *curr = head; // curr to link reversed mini lists 
+             
+        while(--num && Next!=NULL) // for the first k elements reversal
+        {
+            new_head->next = prev;
+            prev = new_head;
+            new_head = Next;
+            Next = Next->next;
+        }
+        new_head->next = prev;
+        
+        // for rest of the reversals and linking them with each other
+        node *temp_head = Next;
+        while(Next!=NULL)
+        {
+            num = k;
+            temp_head = Next;
+            Next = Next->next;
+            node *link = curr;
+            curr = temp_head;
+            prev = NULL;
+            while(--num && temp_head->next!=NULL)
+            {
+                temp_head->next = prev; // 2 <- 2
+                prev = temp_head; // prev = 2
+                temp_head = Next; // new_head = 4
+                Next = Next->next; //Next = 5
+            }
+            temp_head->next = prev;
+            link->next  = temp_head;
+        }
+    return new_head;
+    }
