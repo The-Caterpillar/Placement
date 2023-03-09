@@ -1,0 +1,148 @@
+class Solution
+{
+    public:
+    Node *reverse(Node *head)
+    {
+        if(head==NULL) return NULL;
+        if(head->next==NULL) return head;
+        
+        Node *prev = NULL,
+             *new_head = head,
+             *Next = head->next;
+        
+        while(new_head->next!=NULL)
+        {
+            new_head->next = prev;
+            prev = new_head;
+            new_head = Next;
+            Next = Next->next;
+        } new_head->next = prev;
+    return new_head;
+    }
+    
+
+    //Function to add two numbers represented by linked list.
+    struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+        // code here
+        if(first==NULL) return second;
+        else if(second==NULL) return first;
+        
+        Node *curr1 = first, *curr2 = second, *result=first, *curr=first;
+        
+        first = reverse(first);
+        second = reverse(second);
+        
+        
+            int a = first->data,
+                b = second->data;
+            int sum = a+b, carry = 0;
+            bool check_carry = false;
+            
+            curr1 = first->next;
+            curr2 = second->next;
+            
+            if(sum < 9)
+            {
+                Node *New = new Node(sum);
+                result = New;
+            }
+            else
+            {
+                carry = sum/10;
+                check_carry = true;
+                Node *New = new Node(sum%10);
+                result = New;
+            }
+        curr = result;
+
+        while(curr1!=NULL && curr2!=NULL)
+        {
+            a = curr1->data; // 9
+            b = curr2->data; // 8
+            sum = a+b; // 17
+            if(check_carry) sum = sum+carry;
+
+            if(sum <= 9)
+            {
+                Node *New = new Node(sum);
+                check_carry = false;
+                curr->next = New;
+                curr=New;
+            }
+            else
+            {
+                carry = sum/10;
+                check_carry = true;
+                Node *New = new Node(sum%10);
+                curr->next = New;
+                curr=New;
+            }
+        curr1 = curr1->next;
+        curr2 = curr2->next;
+        }
+
+        if(curr1==NULL && curr2!=NULL)
+        {
+            while(curr2!=NULL)
+            {
+                b = curr2->data;
+                if(check_carry) sum = carry+b;
+                else sum = b;
+                
+                if(sum<=9)
+                {
+                    Node *New = new Node(sum);
+                    curr->next = New;
+                    curr=New;
+                    check_carry = false;
+                }
+                else
+                {
+                    carry = sum/10;
+                    check_carry = true;
+                    Node *New = new Node(sum%10);
+                    curr->next = New;
+                    curr=New;
+                }
+            curr2 = curr2->next;
+            }
+        }
+        
+        else if(curr1!=NULL && curr2==NULL)
+        {
+            while(curr1!=NULL)
+            {
+                a = curr1->data;
+                if(check_carry) sum = carry+a;
+                else sum = a;
+                
+                if(sum<=9)
+                {
+                    Node *New = new Node(sum);
+                    curr->next = New;
+                    check_carry = false;
+                    curr=New;
+                }
+                else
+                {
+                    carry = sum/10;
+                    check_carry = true;
+                    Node *New = new Node(sum%10);
+                    curr->next = New;
+                    curr=New;
+                }
+            curr1 = curr1->next;
+            }
+        }
+    
+    if(check_carry)
+    {
+        Node *New = new Node(carry);
+        curr->next = New;
+    }
+    
+    result = reverse(result);
+    return result;
+    }
+};
