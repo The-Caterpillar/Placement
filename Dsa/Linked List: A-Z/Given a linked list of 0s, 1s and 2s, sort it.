@@ -1,0 +1,39 @@
+class Solution
+{
+    public:
+    //Function to sort a linked list of 0s, 1s and 2s.
+    Node* segregate(Node *head) 
+    {
+        int n0 = 0, n1 = 0, n2 = 0;
+        
+        Node *curr = head;
+        while(curr!=NULL)
+        {
+            if(curr->data == 0) n0++;
+            else if(curr->data == 1) n1++;
+            else n2++;
+        curr = curr->next;
+        } 
+        // cout<<n0<<" "<<n1<<" "<<n2<<"\n"; // 1 2 5
+        
+        curr = head;
+        while(n0--)
+        {
+            curr->data = 0;
+            curr = curr->next;
+        }
+        while(n1--)
+        {
+            curr->data = 1;
+            curr = curr->next;
+        }
+        while(n2--)
+        {
+            curr->data = 2;
+            curr = curr->next;
+        }
+        // Add code here
+    return head;
+        
+    }
+};
